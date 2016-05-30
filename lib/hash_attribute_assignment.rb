@@ -2,7 +2,7 @@ module HashAttributeAssignment
   module ClassMethods
     HashValidation = Struct.new(:proc, :message)
 
-    def validate_hash(proc, options = { message: "Hash failed validation" })
+    def validate_hash(proc, options = { message: 'Hash failed validation' })
       raise ArgumentError('First arg must be a call-able') unless proc.respond_to? :call
       class_variable_set(:@@hash_validations, hash_validations + [HashValidation.new(proc, options[:message])])
     end
@@ -36,13 +36,13 @@ module HashAttributeAssignment
 
     def assign_asstributes
       hash.each do |key, value|
-                 instance.instance_variable_set("@#{key}".to_sym, value)
+        instance.instance_variable_set("@#{key}".to_sym, value)
       end
     end
 
     def check_required_keys
       required_keys.each do |key|
-          raise ArgumentError, "Required key '#{key}' missing for #{klass}" unless hash.key? key
+        raise ArgumentError, "Required key '#{key}' missing for #{klass}" unless hash.key? key
       end
     end
 
@@ -52,7 +52,7 @@ module HashAttributeAssignment
 
     def validate_hash!
       hash_validations.each do |_validation|
-        raise HashValidationError,   validation.message unless validation.proc.call hash
+        raise HashValidationError, validation.message unless validation.proc.call hash
       end
     end
 
