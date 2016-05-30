@@ -1,1 +1,1 @@
-# hash-attribute-assignment
+# hash_attribute_assignment
