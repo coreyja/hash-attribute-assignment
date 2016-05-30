@@ -1,8 +1,8 @@
-require 'hash_attribute_assignment'
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
 require 'hash_attribute_assignment/version'
 
 Gem::Specification.new do |s|
-  s.name          = 'hash_attribute_assigment'
+  s.name          = 'hash_attribute_assignment'
   s.summary       = 'Instantiate objects with a hash of instance variables'
   s.version       = HashAttributeAssignment::VERSION
   s.author        = 'Corey Alexander'
