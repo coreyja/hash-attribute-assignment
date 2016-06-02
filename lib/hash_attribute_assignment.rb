@@ -51,7 +51,7 @@ module HashAttributeAssignment
     end
 
     def validate_hash!
-      hash_validations.each do |_validation|
+      hash_validations.each do |validation|
         raise HashValidationError, validation.message unless validation.proc.call hash
       end
     end
