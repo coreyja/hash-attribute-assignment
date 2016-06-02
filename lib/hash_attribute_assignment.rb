@@ -13,7 +13,6 @@ module HashAttributeAssignment
       class_variable_defined?(:@@hash_validations) ? class_variable_get(:@@hash_validations) : []
     end
   end
-  class HashValidationError < StandardError; end
   class HashAttributeAssignor
     def initialize(instance, hash = {})
       @hash = hash
@@ -52,7 +51,7 @@ module HashAttributeAssignment
 
     def validate_hash!
       hash_validations.each do |validation|
-        raise HashValidationError, validation.message unless validation.proc.call hash
+        raise ArgumentError, validation.message unless validation.proc.call hash
       end
     end
 
