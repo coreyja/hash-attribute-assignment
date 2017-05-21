@@ -7,8 +7,6 @@ module HashAttributeAssignment
       class_variable_set(:@@hash_validations, hash_validations + [HashValidation.new(proc, options[:message])])
     end
 
-    private
-
     def hash_validations
       class_variable_defined?(:@@hash_validations) ? class_variable_get(:@@hash_validations) : []
     end
@@ -19,7 +17,7 @@ module HashAttributeAssignment
       @hash = hash
       @klass = instance.class
       @instance = instance
-      @hash_validations = klass.class_variable_get(:@@hash_validations)
+      @hash_validations = klass.hash_validations
     end
 
     def assign
