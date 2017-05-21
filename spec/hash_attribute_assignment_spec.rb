@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe HashAttributeAssignment do
+  subject { klass.new attributes }
+
   let(:klass) do
     Class.new do
       include HashAttributeAssignment
@@ -16,11 +18,9 @@ RSpec.describe HashAttributeAssignment do
     {
       foo: :bar,
       other_attribute: 5.7,
-      attribute_without_reader: :haha
+      attribute_without_reader: :haha,
     }
   end
-
-  subject { klass.new attributes }
 
   it 'sets arbitrary attributes correctly which work with attr_readers' do
     attributes.keys.each do |key|
@@ -45,14 +45,14 @@ RSpec.describe HashAttributeAssignment do
         let(:attributes) { { foo: nil } }
 
         it 'initializes' do
-          expect { subject }.to_not raise_error
+          expect { subject }.not_to raise_error
         end
       end
 
       let(:attributes) { { foo: :bar } }
 
       it 'initializes' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe HashAttributeAssignment do
 
         DEFAULT_HASH = {
           foo: :bar,
-          other_attribute: 5.7
+          other_attribute: 5.7,
         }.freeze
         REQUIRED_KEYS = [].freeze
 
@@ -92,7 +92,7 @@ RSpec.describe HashAttributeAssignment do
     context 'when a different value is provided for some attributes' do
       let(:attributes) do
         {
-          foo: 1
+          foo: 1,
         }
       end
 
@@ -118,7 +118,7 @@ RSpec.describe HashAttributeAssignment do
       let(:attributes) { { foo: :bar } }
 
       it 'initializes' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
