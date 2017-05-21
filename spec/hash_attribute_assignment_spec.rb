@@ -57,7 +57,7 @@ RSpec.describe HashAttributeAssignment do
     end
 
     context 'when the required key is NOT provided' do
-      let(:attributes) { { } }
+      let(:attributes) { {} }
 
       it 'does not initialize' do
         expect { subject }.to raise_error ArgumentError
@@ -71,8 +71,8 @@ RSpec.describe HashAttributeAssignment do
         include HashAttributeAssignment
 
         DEFAULT_HASH = {
-            foo: :bar,
-            other_attribute: 5.7
+          foo: :bar,
+          other_attribute: 5.7
         }.freeze
         REQUIRED_KEYS = [].freeze
 
@@ -92,7 +92,7 @@ RSpec.describe HashAttributeAssignment do
     context 'when a different value is provided for some attributes' do
       let(:attributes) do
         {
-            foo: 1
+          foo: 1
         }
       end
 
