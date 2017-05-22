@@ -15,4 +15,8 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://github.com/coreyja/hash_attribute_assignment'
 
   s.required_ruby_version = '>= 2.1.0'
+
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rubocop'
 end

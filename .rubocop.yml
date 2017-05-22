@@ -1,8 +1,8 @@
+inherit_from: .thoughtbot_rubocop.yml
+
 AllCops:
   Exclude:
     - 'vendor/**/*'
-    - 'db/migrate/**/*'
-    - 'db/schema.rb'
 
 Metrics/LineLength:
   Max: 120
@@ -18,3 +18,7 @@ Style/StringLiterals:
   SupportedStyles:
   - single_quotes
   - double_quotes
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
