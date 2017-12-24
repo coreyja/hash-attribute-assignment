@@ -35,7 +35,7 @@ jobs:
 
       - type: shell
         command: |
-          "RSpec.configure do |c|; c.example_status_persistence_file_path = '.rspec_failed_examples'; end" > circleci_spec_helper.rb
+          echo "RSpec.configure do |c|; c.example_status_persistence_file_path = '.rspec_failed_examples'; end" > circleci_spec_helper.rb
 
       # Run rspec in parallel
       - type: shell
