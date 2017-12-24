@@ -46,3 +46,6 @@ jobs:
       - type: store_test_results
         path: /tmp/test-results
 
+      - store_artifacts:
+        path: ~/hash_attribute_assignment/.rspec_failed_examples
+
