@@ -33,10 +33,15 @@ jobs:
             --force-exclusion \
             $(bundle exec rubocop --list-target-files | circleci tests split --split-by=filesize --show-counts)
 
+      - type: shell
+        command: |
+          "RSpec.configure do |c|; c.example_status_persistence_file_path = '.rspec_failed_examples'; end" > circleci_spec_helper.rb
+
       # Run rspec in parallel
       - type: shell
         command: |
           bundle exec rspec --profile 10 \
+                            --require circleci_spec_helper.rb \
                             --format RspecJunitFormatter \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
