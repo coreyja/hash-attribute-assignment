@@ -31,7 +31,7 @@ jobs:
             --out /tmp/test-results/rubocop.xml \
             --format progress \
             --force-exclusion \
-            $(bundle exec rubocop --list-target-files | circleci tests split --split-by=filesize)
+            $(bundle exec rubocop --list-target-files | circleci tests split --split-by=filesize --show-counts)
 
       # Run rspec in parallel
       - type: shell
@@ -40,7 +40,7 @@ jobs:
                             --format RspecJunitFormatter \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
-                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --show-counts)
 
       # Save artifacts
       - type: store_test_results
