@@ -37,3 +37,6 @@ Gemfile.lock
 
 # RubyMine
 .idea/
+
+# Ignore RSpec Status Persistace File
+.rspec_example_statuses

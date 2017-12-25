@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe HashAttributeAssignment do
   subject { klass.new attributes }
 
@@ -23,7 +21,7 @@ RSpec.describe HashAttributeAssignment do
   end
 
   it 'sets arbitrary attributes correctly which work with attr_readers' do
-    attributes.keys.each do |key|
+    attributes.each_key do |key|
       expect(subject.instance_variable_get("@#{key}")).to eq attributes[key]
     end
     expect(subject.foo).to eq :bar
