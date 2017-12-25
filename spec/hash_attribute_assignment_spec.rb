@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe HashAttributeAssignment do
   subject { klass.new attributes }
 

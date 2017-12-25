@@ -41,7 +41,6 @@ jobs:
       - type: shell
         command: |
           bundle exec rspec --profile 10 \
-                            --require ./circleci_spec_helper.rb \
                             --format RspecJunitFormatter \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \

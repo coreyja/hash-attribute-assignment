@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe HashAttributeAssignment do
   context 'group of tests to break on purpose' do
     it 'breaks' do
