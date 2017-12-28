@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     working_directory: ~/hash_attribute_assignment
-    parallelism: 1
+    parallelism: 2
     docker:
       - image: circleci/ruby:2.3.4
 
