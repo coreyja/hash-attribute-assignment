@@ -60,7 +60,7 @@ jobs:
 
 workflows:
   version: 2
-  build-test-and-deploy:
+  btd:
     jobs:
 			- test1
 			- test2
