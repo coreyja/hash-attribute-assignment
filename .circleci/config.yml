@@ -1,55 +1,66 @@
+default_build: &default_build
+  working_directory: ~/hash_attribute_assignment
+  parallelism: 2
+  docker:
+    - image: circleci/ruby:2.3.4
+
+  steps:
+    - checkout
+
+    ## Bundler
+    # Restore Cache
+    - restore_cache:
+        keys:
+          - gem-cache-{{ checksum "hash_attribute_assignment.gemspec" }}
+    # Install
+    - run: bundle check || bundle install --path vendor/bundle
+    # Store Cache
+    - save_cache:
+        key: gem-cache-{{ checksum "hash_attribute_assignment.gemspec" }}
+        paths:
+          - vendor/bundle
+
+    - type: shell
+      command: |
+        bundle exec rubocop \
+          --config .rubocop.yml \
+          -r $(bundle show rubocop-junit-formatter)/lib/rubocop/formatter/junit_formatter.rb \
+          --format RuboCop::Formatter::JUnitFormatter \
+          --out /tmp/test-results/rubocop.xml \
+          --format progress \
+          --force-exclusion \
+          $(bundle exec rubocop --list-target-files | circleci tests split --split-by=filesize --show-counts)
+
+    - type: shell
+      command: |
+        echo "RSpec.configure do |c|; c.example_status_persistence_file_path = '.rspec_failed_examples'; end" > circleci_spec_helper.rb
+
+    # Run rspec in parallel
+    - type: shell
+      command: |
+        bundle exec rspec --profile 10 \
+                          --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec.xml \
+                          --format progress \
+                          $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --show-counts)
+
+    # Save artifacts
+    - type: store_test_results
+      path: /tmp/test-results
+
+    - store_artifacts:
+        path: ~/hash_attribute_assignment/.rspec_example_statuses
+
 version: 2
 jobs:
-  build:
-    working_directory: ~/hash_attribute_assignment
-    parallelism: 1
-    docker:
-      - image: circleci/ruby:2.3.4
+  test1:
+    <<: *default_build
+  test2:
+    <<: *default_build
 
-    steps:
-      - checkout
-
-      ## Bundler
-      # Restore Cache
-      - restore_cache:
-          keys:
-            - gem-cache-{{ checksum "hash_attribute_assignment.gemspec" }}
-      # Install
-      - run: bundle check || bundle install --path vendor/bundle
-      # Store Cache
-      - save_cache:
-          key: gem-cache-{{ checksum "hash_attribute_assignment.gemspec" }}
-          paths:
-            - vendor/bundle
-
-      - type: shell
-        command: |
-          bundle exec rubocop \
-            --config .rubocop.yml \
-            -r $(bundle show rubocop-junit-formatter)/lib/rubocop/formatter/junit_formatter.rb \
-            --format RuboCop::Formatter::JUnitFormatter \
-            --out /tmp/test-results/rubocop.xml \
-            --format progress \
-            --force-exclusion \
-            $(bundle exec rubocop --list-target-files | circleci tests split --split-by=filesize --show-counts)
-
-      - type: shell
-        command: |
-          echo "RSpec.configure do |c|; c.example_status_persistence_file_path = '.rspec_failed_examples'; end" > circleci_spec_helper.rb
-
-      # Run rspec in parallel
-      - type: shell
-        command: |
-          bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --show-counts)
-
-      # Save artifacts
-      - type: store_test_results
-        path: /tmp/test-results
-
-      - store_artifacts:
-          path: ~/hash_attribute_assignment/.rspec_example_statuses
-
+workflows:
+  version: 2
+  btd:
+    jobs:
+      - test1
+      - test2
